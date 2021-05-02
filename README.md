@@ -4,7 +4,7 @@ This project is a carbon footprint calculator API built on Serverless Framework 
 
 ## API documentation
 
-[Carbon Footprint calculator API](https://app.swaggerhub.com/apis-docs/sina6/dev-sinai_api/V1#/).
+[Carbon Footprint calculator API](https://app.swaggerhub.com/apis-docs/sina6/dev-sinai_api/V1).
 
 
 ## Available Scripts

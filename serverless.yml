@@ -1,7 +1,12 @@
 service: sinai-api
 
 plugins:
+  - serverless-offline
+  - serverless-plugin-webpack
   - serverless-aws-documentation
+
+package:
+  individually: true
 
 provider:
   name: aws
