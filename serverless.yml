@@ -1,0 +1,77 @@
+service: sinai-api
+
+plugins:
+  - serverless-aws-documentation
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+custom:
+  documentation:
+    api:
+      info:
+        version: "1"
+        title: "Sinai simulation API"
+        description: "Sinai simulation API for carbon footprint calculations"
+        termsOfService: "https://www.sinaitechnologies.com"
+        contact:
+          name: "João Cardoso"
+          url: "https://www.linkedin.com/in/jo%C3%A3o"
+          email: "joaoricardo15@hotmail.com"
+        license:
+          name: "Licensing"
+          url: "https://www.sinaitechnologies.com"
+    authorizers:
+      -
+        name: "SimulationAPIAuthorizer"
+        description: "API default authorizer"
+    models:
+      -
+        name: "ErrorResponse"
+        description: "Error model"
+        contentType: "application/json"
+        schema: ${file(src/models/error.json)}
+      -
+        name: "SimulationRequest"
+        description: "Simulation request model"
+        contentType: "application/json"
+        schema: ${file(src/models/simulationRequest.json)}
+      -
+        name: "SimulationResponse"
+        description: "Simulation response model"
+        contentType: "application/json"
+        schema: ${file(src/models/simulationResponse.json)}
+
+functions:
+  createItem:
+    handler: src/endpoints/simulateFootprint.handler
+    events:
+      - http:
+          path: simulateFootprint
+          method: post
+          cors: true
+          documentation:
+            summary: "Simulation endpoint"
+            description: "Take default simulation parameters and responses the simulation itself"
+            tags:
+              - "Simulate carbon footprint"
+            requestBody:
+              description: "Request body description"
+            requestHeaders:
+              -
+                name: "Authorization"
+                description: "Auth Header description"
+            requestModels:
+              "application/json": "SimulationRequest"
+            methodResponses:
+              -
+                statusCode: "200"
+                responseBody:
+                  description: "Simulation response body"
+                responseModels:
+                  "application/json": "SimulationResponse"
+              -
+                statusCode: "400"
+                responseModels:
+                  "application/json": "ErrorResponse"

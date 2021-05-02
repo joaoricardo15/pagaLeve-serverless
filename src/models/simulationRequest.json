@@ -1,0 +1,13 @@
+{
+    "$schema":"http://json-schema.org/draft-04/schema#",
+    "title":"Simulation request model",
+    "type":"object",
+    "properties":{
+         "monthlyElectricityUsage":{
+            "type": "number"
+         },
+         "monthlyFuelOilUsage":{
+            "type": "number"
+         }
+    }
+ }
