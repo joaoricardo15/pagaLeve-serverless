@@ -6,6 +6,13 @@ This project is a carbon footprint calculator API built on Serverless Framework 
 
 [Carbon Footprint calculator API](https://app.swaggerhub.com/apis-docs/sina6/dev-sinai_api/V1).
 
+## Logs
+
+Logs can be found at [AWS Cloudwatch](https://aws.amazon.com/pt/cloudwatch/)
+
+## Error monitoring
+
+Error monitopring and notification was implemented with [Sendgrid](https://sendgrid.com/)
 
 ## Available Scripts
 

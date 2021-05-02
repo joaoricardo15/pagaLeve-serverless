@@ -49,6 +49,7 @@ module.exports.handler = async (event, context, callback) => {
             resource: 'simulateFootprint',
             timestamp: new Date().toISOString(),
             input: event.body,
+            ip: event.requestContext.identity.sourceIp,
             error: errorMessage
         })
     }
