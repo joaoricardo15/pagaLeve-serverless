@@ -22,7 +22,7 @@ module.exports = class Calculator {
         if (typeof electricity !== 'number' || typeof waste !== 'number' || typeof water !== 'number')
             throw 'invalid input'
 
-        // electricity (kWh/yr), EF (kg CO2e/kWh), emission (kg CO2e/yr)
+        // electricity (kWh/month), EF (kg CO2e/kWh), emission (kg CO2e/yr)
         const electricityEmission = electricity * NUM_MONTHS_PER_YEAR * ELECTRICITY_EMISSION_FACTOR;
         
         // waste (kg/week), EF (kg CO2e/kg), emissions (kg CO2e/yr)

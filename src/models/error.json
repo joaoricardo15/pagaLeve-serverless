@@ -1,6 +1,6 @@
 {
     "$schema":"http://json-schema.org/draft-04/schema#",
-    "title":"Error Schema",
+    "title":"Error model",
     "type":"object",
     "properties":{
          "message":{

@@ -34,24 +34,20 @@ custom:
         license:
           name: "Licensing"
           url: "https://www.sinaitechnologies.com"
-    authorizers:
-      -
-        name: "SimulationAPIAuthorizer"
-        description: "API default authorizer"
     models:
       -
         name: "ErrorResponse"
-        description: "Error model"
+        description: "Error message"
         contentType: "application/json"
         schema: ${file(src/models/error.json)}
       -
         name: "SimulationRequest"
-        description: "Simulation request model"
+        description: "Units: Electricity (kWh/month); Waste (kg/week); Water (litres/day);"
         contentType: "application/json"
         schema: ${file(src/models/simulationRequest.json)}
       -
         name: "SimulationResponse"
-        description: "Simulation response model"
+        description: "Total carbon emission in kg CO2e/yr"
         contentType: "application/json"
         schema: ${file(src/models/simulationResponse.json)}
 
@@ -64,23 +60,19 @@ functions:
           method: post
           cors: true
           documentation:
-            summary: "Simulation endpoint"
-            description: "Take default simulation parameters and responses the simulation itself"
+            summary: "Carbon footprint simulation endpoint"
+            description: "Takes usage parameters and responses the corresponding carbon emission"
             tags:
               - "Simulate carbon footprint"
             requestBody:
-              description: "Request body description"
-            requestHeaders:
-              -
-                name: "Authorization"
-                description: "Auth Header description"
+              description: "This is how the request body should looks like."
             requestModels:
               "application/json": "SimulationRequest"
             methodResponses:
               -
                 statusCode: "200"
                 responseBody:
-                  description: "Simulation response body"
+                  description: "This is how the response body looks like"
                 responseModels:
                   "application/json": "SimulationResponse"
               -

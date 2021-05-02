@@ -22,7 +22,7 @@ module.exports = class Sendgrid {
                     to: [
                       { 
                         name: 'Suport engeneer',
-                        email: 'joaoricardo15@hotmail.com'
+                        email: 'joaoricardocardoso15@gmail.com'
                       }
                     ],
                     dynamic_template_data: fields

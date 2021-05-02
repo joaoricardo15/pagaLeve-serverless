@@ -12,10 +12,8 @@ const headers = {
 
 module.exports.handler = async (event, context, callback) => {
     try {
-
         // parse input
-        // const input = JSON.parse(event.body)
-        const input = { electricity: 10, waste: 10, water: 10 }
+        const input = JSON.parse(event.body)
 
         // calculalte emission
         const emission = calculator.simulateFootprint(input)
