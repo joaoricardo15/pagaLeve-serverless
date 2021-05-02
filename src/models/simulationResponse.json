@@ -3,7 +3,7 @@
     "title":"Simulation response model",
     "type":"object",
     "properties":{
-         "carbonEmission":{
+         "emission":{
             "type": "number"
          }
     }

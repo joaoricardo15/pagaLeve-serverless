@@ -3,10 +3,13 @@
     "title":"Simulation request model",
     "type":"object",
     "properties":{
-         "monthlyElectricityUsage":{
+         "electricity":{
             "type": "number"
          },
-         "monthlyFuelOilUsage":{
+         "waste":{
+            "type": "number"
+         },
+         "water":{
             "type": "number"
          }
     }

@@ -5,7 +5,14 @@ plugins:
 
 provider:
   name: aws
+  timeout: 30
+  memorySize: 512
   runtime: nodejs12.x
+  versionFunctions: false
+  environment:
+    # Sendgrid
+    SENDGRID_API_URL: https://api.sendgrid.com/v3
+    SENDGRID_API_TOKEN: ${file(./credentials/sendgrid.json):api_token}
 
 custom:
   documentation:
@@ -44,7 +51,7 @@ custom:
         schema: ${file(src/models/simulationResponse.json)}
 
 functions:
-  createItem:
+  simulate-footprint:
     handler: src/endpoints/simulateFootprint.handler
     events:
       - http:
