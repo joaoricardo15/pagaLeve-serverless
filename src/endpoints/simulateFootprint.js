@@ -1,9 +1,9 @@
 'use strict'
 
-const { Calculator, Sendgrid } = require('../utils')
+const { Calculator, Notifier } = require('../utils')
 
 const calculator = new Calculator()
-const sendgrid = new Sendgrid()
+const notifier = new Notifier()
 
 const headers = {
     'Content-type': 'application/json',
@@ -45,7 +45,7 @@ module.exports.handler = async (event, context, callback) => {
         console.log('fail: ', errorMessage)
         
         // notify error
-        await sendgrid.sendEmail({
+        await notifier.notifyError({
             resource: 'simulateFootprint',
             timestamp: new Date().toISOString(),
             input: event.body,

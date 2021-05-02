@@ -5,13 +5,13 @@ const Axios = require('axios')
 const SENDGRID_API_URL = process.env.SENDGRID_API_URL
 const SENDGRID_API_TOKEN = process.env.SENDGRID_API_TOKEN
 
-module.exports = class Sendgrid {
+module.exports = class Notifier {
 
     constructor() {
         this.apiRequest = Axios.create({ baseURL: SENDGRID_API_URL, headers: { 'Authorization': `Bearer ${SENDGRID_API_TOKEN}` } })
     }
 
-    async sendEmail(fields) {
+    async notifyError(fields) {
         const url = '/mail/send'
         const method = 'post'
 
@@ -21,7 +21,7 @@ module.exports = class Sendgrid {
                   {
                     to: [
                       { 
-                        name: 'Suport engeneer',
+                        name: 'Sinai Suport Engeneer',
                         email: 'joaoricardocardoso15@gmail.com'
                       }
                     ],
@@ -29,8 +29,8 @@ module.exports = class Sendgrid {
                   }
                 ],
                 from: {
-                  email: 'joaoricardo15@hotmail.com',
-                  name: 'João'
+                  name: 'Sinai API Notifier',
+                  email: 'joaoricardo15@hotmail.com'
                 },
                 template_id: 'd-85ff6049c6c6422e9ee6c26366e2b442',
             }

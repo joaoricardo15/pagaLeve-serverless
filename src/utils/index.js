@@ -1,9 +1,9 @@
 'use strict'
 
 const Calculator = require('./calculator')
-const Sendgrid = require('./sendgrid')
+const Notifier = require('./notifier')
 
 module.exports = {
     Calculator,
-    Sendgrid
+    Notifier
 }
