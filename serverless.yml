@@ -42,7 +42,7 @@ custom:
         schema: ${file(src/models/error.json)}
       -
         name: "SimulationRequest"
-        description: "Units: Electricity (kWh/month); Waste (kg/week); Water (litres/day);"
+        description: "Units: Electricity (kWh/month); Vehicle (miles/day); Waste (kg/week);"
         contentType: "application/json"
         schema: ${file(src/models/simulationRequest.json)}
       -

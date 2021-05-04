@@ -6,10 +6,10 @@
          "electricity":{
             "type": "number"
          },
-         "waste":{
+         "vehicle":{
             "type": "number"
          },
-         "water":{
+         "waste":{
             "type": "number"
          }
     }
