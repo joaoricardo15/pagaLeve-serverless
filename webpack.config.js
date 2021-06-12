@@ -1,6 +1,7 @@
 module.exports = {
     target: 'node',
     externals: [
-        /https/,
+        /aws-sdk/,
+        /https/
     ]
 }

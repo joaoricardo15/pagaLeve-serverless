@@ -1,4 +1,4 @@
-service: sinai-api
+service: pague-leve-serverless
 
 plugins:
   - serverless-offline
@@ -10,14 +10,36 @@ package:
 
 provider:
   name: aws
-  timeout: 30
+  timeout: 10
   memorySize: 512
+  region: us-east-1
   runtime: nodejs12.x
   versionFunctions: false
+  stage: ${opt:stage, 'dev'}
+  deploymentBucket:
+    name: ${self:provider.environment.API_PREFIX}
+    blockPublicAccess: true
   environment:
+    # Api service
+    API_PREFIX: ${self:service}-${self:provider.stage}
+
     # Sendgrid
     SENDGRID_API_URL: https://api.sendgrid.com/v3
     SENDGRID_API_TOKEN: ${file(./credentials/sendgrid.json):api_token}
+
+    # Data bases
+    CUSTOMERS_TABLE: ${self:provider.environment.API_PREFIX}-customers
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:DeleteItem
+      Resource:
+        - { "Fn::GetAtt": ["customersTable", "Arn" ] }
 
 custom:
   documentation:
@@ -35,47 +57,129 @@ custom:
           name: "Licensing"
           url: "https://www.sinaitechnologies.com"
     models:
-      -
-        name: "ErrorResponse"
-        description: "Error message"
+      - name: "ErrorResponse"
+        description: "Error payload"
         contentType: "application/json"
         schema: ${file(src/models/error.json)}
-      -
-        name: "SimulationRequest"
-        description: "Units: Electricity (kWh/month); Vehicle (miles/day); Waste (kg/week);"
+      - name: "SuccessResponse"
+        description: "Success payload"
         contentType: "application/json"
-        schema: ${file(src/models/simulationRequest.json)}
-      -
-        name: "SimulationResponse"
-        description: "Total carbon emission in kg CO2e/yr"
-        contentType: "application/json"
-        schema: ${file(src/models/simulationResponse.json)}
+        schema: ${file(src/models/success.json)}
 
 functions:
-  simulate-footprint:
-    handler: src/endpoints/simulateFootprint.handler
+  customers-list:
+    handler: src/endpoints/customers/list/index.handler
     events:
       - http:
-          path: simulateFootprint
-          method: post
+          path: customers
+          method: get
           cors: true
           documentation:
-            summary: "Carbon footprint simulation endpoint"
-            description: "Takes usage parameters and responses the corresponding carbon emission"
-            tags:
-              - "Simulate carbon footprint"
-            requestBody:
-              description: "This is how the request body should looks like."
-            requestModels:
-              "application/json": "SimulationRequest"
+            summary: "List customers"
+            description: "List all customers"
             methodResponses:
-              -
-                statusCode: "200"
+              - statusCode: "200"
                 responseBody:
                   description: "This is how the response body looks like"
                 responseModels:
-                  "application/json": "SimulationResponse"
-              -
-                statusCode: "400"
+                  "application/json": "SuccessResponse"
+              - statusCode: "400"
                 responseModels:
                   "application/json": "ErrorResponse"
+
+  customers-post:
+    handler: src/endpoints/customers/post/index.handler
+    events:
+      - http:
+          path: customers
+          method: post
+          cors: true
+          documentation:
+            summary: "Create customer"
+            description: "Create a new customer"
+            methodResponses:
+              - statusCode: "200"
+                responseBody:
+                  description: "This is how the response body looks like"
+                responseModels:
+                  "application/json": "SuccessResponse"
+              - statusCode: "400"
+                responseModels:
+                  "application/json": "ErrorResponse"
+  
+  customers-delete:
+    handler: src/endpoints/customers/delete/index.handler
+    events:
+      - http:
+          path: customers/{customerId}
+          method: delete
+          cors: true
+          documentation:
+            summary: "Delete customer"
+            description: "Delete a specified customer by customerId"
+            methodResponses:
+              - statusCode: "200"
+                responseBody:
+                  description: "This is how the response body looks like"
+                responseModels:
+                  "application/json": "SuccessResponse"
+              - statusCode: "400"
+                responseModels:
+                  "application/json": "ErrorResponse"
+
+  customers-get:
+    handler: src/endpoints/customers/get/index.handler
+    events:
+      - http:
+          path: customers/{customerId}
+          method: get
+          cors: true
+          documentation:
+            summary: "Get customer"
+            description: "Get a specified customer by customerId"
+            methodResponses:
+              - statusCode: "200"
+                responseBody:
+                  description: "This is how the response body looks like"
+                responseModels:
+                  "application/json": "SuccessResponse"
+              - statusCode: "400"
+                responseModels:
+                  "application/json": "ErrorResponse"
+
+  customers-search:
+    handler: src/endpoints/customers/search/index.handler
+    events:
+      - http:
+          path: customers/search/{queryTerm}
+          method: get
+          cors: true
+          documentation:
+            summary: "Search customer"
+            description: "Search specified customers by text query"
+            methodResponses:
+              - statusCode: "200"
+                responseBody:
+                  description: "This is how the response body looks like"
+                responseModels:
+                  "application/json": "SuccessResponse"
+              - statusCode: "400"
+                responseModels:
+                  "application/json": "ErrorResponse"
+
+resources:
+  Resources:
+    customersTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        TableName: ${self:provider.environment.CUSTOMERS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: customerId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: customerId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1

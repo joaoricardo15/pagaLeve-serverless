@@ -1,9 +1,9 @@
 'use strict'
 
-const Calculator = require('./calculator')
+const ApiCore = require('./apiCore')
 const Notifier = require('./notifier')
 
 module.exports = {
-    Calculator,
+    ApiCore,
     Notifier
 }
