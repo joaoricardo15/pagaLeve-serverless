@@ -47,7 +47,7 @@ module.exports = class ApiCore {
     async notificateError() {
         const notifier = new Notifier()
         await notifier.notifyError({ 
-            botName: this.functionName,
+            functionName: this.functionName,
             timestamp: this.logObject.timestamp,
             input: JSON.stringify(this.logObject.inputData, null, 4),
             error: this.logObject.result

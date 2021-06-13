@@ -1,10 +1,10 @@
 {
   "swagger" : "2.0",
   "info" : {
-    "description" : "PagueLege microservice API for customers",
-    "version" : "2021-06-13T13:37:28Z",
-    "title" : "prod-pague-leve-serverless",
-    "termsOfService" : "https://pegueleve.com",
+    "description" : "PagaLeve microservice API for customers",
+    "version" : "2021-06-13T15:56:16Z",
+    "title" : "prod-pagaleve-serverless",
+    "termsOfService" : "https://pagaleve.com",
     "contact" : {
       "name" : "João Cardoso",
       "url" : "https://www.linkedin.com/in/jo%C3%A3o",
@@ -12,15 +12,16 @@
     },
     "license" : {
       "name" : "Licensing",
-      "url" : "https://pegueleve.com/home"
+      "url" : "https://pagaleve.com/home"
     }
   },
-  "host" : "ey780sk9wl.execute-api.us-east-1.amazonaws.com",
+  "host" : "cjzedhi6n9.execute-api.us-east-1.amazonaws.com",
   "basePath" : "/prod",
   "schemes" : [ "https" ],
   "paths" : {
     "/customers" : {
       "get" : {
+        "tags" : [ "Customers" ],
         "summary" : "List customers",
         "description" : "List all customers",
         "produces" : [ "application/json" ],
@@ -50,6 +51,7 @@
         } ]
       },
       "post" : {
+        "tags" : [ "Customers" ],
         "summary" : "Create customer",
         "description" : "Create a new customer",
         "consumes" : [ "application/json" ],
@@ -90,6 +92,7 @@
     },
     "/customers/search/{queryTerm}" : {
       "get" : {
+        "tags" : [ "Customers" ],
         "summary" : "Search customer",
         "description" : "Search specified customers by text query",
         "produces" : [ "application/json" ],
@@ -127,6 +130,7 @@
     },
     "/customers/{customerId}" : {
       "get" : {
+        "tags" : [ "Customers" ],
         "summary" : "Get customer",
         "description" : "Get a specified customer by customerId",
         "produces" : [ "application/json" ],
@@ -162,6 +166,7 @@
         } ]
       },
       "delete" : {
+        "tags" : [ "Customers" ],
         "summary" : "Delete customer",
         "description" : "Delete a specified customer by customerId",
         "produces" : [ "application/json" ],

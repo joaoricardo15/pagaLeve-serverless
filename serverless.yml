@@ -1,4 +1,4 @@
-service: pague-leve-serverless
+service: pagaleve-serverless
 
 plugins:
   - serverless-offline
@@ -16,16 +16,13 @@ provider:
   runtime: nodejs12.x
   versionFunctions: false
   stage: ${opt:stage, 'dev'}
-  deploymentBucket:
-    name: ${self:provider.environment.API_PREFIX}
-    blockPublicAccess: true
   environment:
     # Api service
     API_PREFIX: ${self:service}-${self:provider.stage}
 
     # Sendgrid
     SENDGRID_API_URL: https://api.sendgrid.com/v3
-    SENDGRID_API_TOKEN: 123
+    SENDGRID_API_TOKEN: ${file(./credentials/sendgrid.json):api_token}
 
     # Data bases
     CUSTOMERS_TABLE: ${self:provider.environment.API_PREFIX}-customers
@@ -52,16 +49,16 @@ custom:
     api:
       info:
         version: "1"
-        title: "PagueLeve Customers API"
-        description: "PagueLege microservice API for customers"
-        termsOfService: "https://pegueleve.com"
+        title: "PagaLeve Customers API"
+        description: "PagaLeve microservice API for customers"
+        termsOfService: "https://pagaleve.com"
         contact:
           name: "João Cardoso"
           url: "https://www.linkedin.com/in/jo%C3%A3o"
           email: "joaoricardo15@hotmail.com"
         license:
           name: "Licensing"
-          url: "https://pegueleve.com/home"
+          url: "https://pagaleve.com/home"
       authorizers:
         - name: "apiAuthorizer"
           description: "Authorizer for API requests"
@@ -97,6 +94,8 @@ functions:
           documentation:
             summary: "List customers"
             description: "List all customers"
+            tags:
+              - "Customers"
             requestHeaders:
               - name: "Authorization"
                 description: "Auth credentials"
@@ -121,6 +120,8 @@ functions:
           documentation:
             summary: "Create customer"
             description: "Create a new customer"
+            tags:
+              - "Customers"
             requestHeaders:
               - name: "Authorization"
                 description: "Auth credentials"
@@ -149,6 +150,8 @@ functions:
           documentation:
             summary: "Delete customer"
             description: "Delete a specified customer by customerId"
+            tags:
+              - "Customers"
             requestHeaders:
               - name: "Authorization"
                 description: "Auth credentials"
@@ -176,6 +179,8 @@ functions:
           documentation:
             summary: "Get customer"
             description: "Get a specified customer by customerId"
+            tags:
+              - "Customers"
             requestHeaders:
               - name: "Authorization"
                 description: "Auth credentials"
@@ -203,6 +208,8 @@ functions:
           documentation:
             summary: "Search customer"
             description: "Search specified customers by text query"
+            tags:
+              - "Customers"
             requestHeaders:
               - name: "Authorization"
                 description: "Auth credentials"

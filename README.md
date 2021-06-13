@@ -1,10 +1,10 @@
 # Customers API
 
-This project is a customers API built on Serverless Framework with NodeJS, and it is part of a technical test proposed by [PagueLeve](https://pegueleve.com).
+This project is a customers API built on Serverless Framework with NodeJS, and it is part of a technical test proposed by [PagueLeve](https://pagaleve.com.br).
 
 ## API documentation
 
-[PagueLeve API for Customers](https://app.swaggerhub.com/apis-docs/joaoricardo15/PagueLeve-Customers/V1).
+[PagaLeve API for Customers](https://app.swaggerhub.com/apis-docs/paga-leve/PagaLeve-Customers/V1).
 
 ## Logs
 

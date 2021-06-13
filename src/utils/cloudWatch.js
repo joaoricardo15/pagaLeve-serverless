@@ -107,7 +107,7 @@ module.exports = class CloudWatch {
             for (let log of logEvents.events.reverse())
                 try {
                     const logPayload = JSON.parse(log.message.split('\tINFO\t')[1])
-                    if (logPayload.inputData && logPayload.steps)
+                    if (logPayload.inputData)
                         formatedLogs.push(logPayload)
                 } catch (error) { }
 
