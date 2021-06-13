@@ -6,9 +6,13 @@ This project is a customers API built on Serverless Framework with NodeJS, and i
 
 [PagaLeve API for Customers](https://app.swaggerhub.com/apis-docs/paga-leve/PagaLeve-Customers/V1).
 
+## CI/CD
+
+Automated deployment is implemented with [GitHub Actions](https://github.com/features/actions)
+
 ## Logs
 
-Logs can be found at [AWS Cloudwatch](https://aws.amazon.com/pt/cloudwatch/)
+Logs are saved at [AWS Cloudwatch](https://aws.amazon.com/pt/cloudwatch/), and it's overview can be found on a special area of the [Customers API Front-End](https://pagaleve.click/endpoints)
 
 ## Error monitoring
 
