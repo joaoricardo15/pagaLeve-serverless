@@ -1,6 +1,6 @@
 # Customers API
 
-This project is a customers API built on Serverless Framework with NodeJS, and it is part of a technical test proposed by [PaaLeve](https://pagaleve.com.br).
+This project is a customers API built on Serverless Framework with NodeJS, and it is part of a technical test proposed by [PagaLeve](https://pagaleve.com.br).
 
 ## API documentation
 
