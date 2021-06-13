@@ -13,15 +13,13 @@ jobs:
       matrix:
         node-version: [14.x]
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Install VPC Plugin and Deploy
+      uses: serverless/github-action@v1.53.0
       with:
-        node-version: ${{ matrix.node-version }}
-    - name: serverless deploy
-      uses: serverless/github-action@master
-      with:
-        args: deploy -s prod
+        args: -c "serverless plugin install --name serverless-vpc-discovery && serverless deploy --stage=prod --verbose"
+        entrypoint: /bin/bash
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
