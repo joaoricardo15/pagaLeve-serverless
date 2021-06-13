@@ -22,7 +22,7 @@ provider:
 
     # Sendgrid
     SENDGRID_API_URL: https://api.sendgrid.com/v3
-    SENDGRID_API_TOKEN: ${file(./credentials/sendgrid.json):api_token}
+    SENDGRID_API_TOKEN: xxx
 
     # Data bases
     CUSTOMERS_TABLE: ${self:provider.environment.API_PREFIX}-customers
