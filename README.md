@@ -1,10 +1,10 @@
-# Carbon Footprint calculator API
+# Customers API
 
-This project is a carbon footprint calculator API built on Serverless Framework with NodeJS, and it is part of a technical test proposed by [Sinai Technologies](https://www.sinaitechnologies.com/).
+This project is a customers API built on Serverless Framework with NodeJS, and it is part of a technical test proposed by [PagueLeve](https://pegueleve.com).
 
 ## API documentation
 
-[Carbon Footprint calculator API](https://app.swaggerhub.com/apis-docs/sina6/dev-sinai_api/V1).
+[PagueLeve API for Customers](https://app.swaggerhub.com/apis-docs/joaoricardo15/PagueLeve-Customers/V1).
 
 ## Logs
 

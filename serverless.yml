@@ -25,10 +25,11 @@ provider:
 
     # Sendgrid
     SENDGRID_API_URL: https://api.sendgrid.com/v3
-    SENDGRID_API_TOKEN: ${file(./credentials/sendgrid.json):api_token}
+    SENDGRID_API_TOKEN: 123
 
     # Data bases
     CUSTOMERS_TABLE: ${self:provider.environment.API_PREFIX}-customers
+    CUSTOMERS_PROFILES_TABLE: ${self:provider.environment.API_PREFIX}-customers-profiles
 
   iamRoleStatements:
     - Effect: Allow
@@ -46,16 +47,20 @@ custom:
     api:
       info:
         version: "1"
-        title: "Sinai simulation API"
-        description: "Sinai simulation API for carbon footprint calculations"
-        termsOfService: "https://www.sinaitechnologies.com"
+        title: "PagueLeve Customers API"
+        description: "PagueLege microservice API for customers"
+        termsOfService: "https://pegueleve.com"
         contact:
           name: "João Cardoso"
           url: "https://www.linkedin.com/in/jo%C3%A3o"
           email: "joaoricardo15@hotmail.com"
         license:
           name: "Licensing"
-          url: "https://www.sinaitechnologies.com"
+          url: "https://pegueleve.com/home"
+      authorizers:
+        - name: "apiAuthorizer"
+          description: "Authorizer for API requests"
+
     models:
       - name: "ErrorResponse"
         description: "Error payload"
@@ -65,8 +70,19 @@ custom:
         description: "Success payload"
         contentType: "application/json"
         schema: ${file(src/models/success.json)}
+      - name: "CreateCustomerModel"
+        description: "Create customer model"
+        contentType: "application/json"
+        schema: ${file(src/models/createCustomer.json)}
+      - name: "CustomerModel"
+        description: "Customer model"
+        contentType: "application/json"
+        schema: ${file(src/models/customer.json)}
 
 functions:
+  service-authorizer:
+    handler: src/services/authorizer.handler
+
   customers-list:
     handler: src/endpoints/customers/list/index.handler
     events:
@@ -74,9 +90,13 @@ functions:
           path: customers
           method: get
           cors: true
+          authorizer: service-authorizer
           documentation:
             summary: "List customers"
             description: "List all customers"
+            requestHeaders:
+              - name: "Authorization"
+                description: "Auth credentials"
             methodResponses:
               - statusCode: "200"
                 responseBody:
@@ -94,9 +114,17 @@ functions:
           path: customers
           method: post
           cors: true
+          authorizer: service-authorizer
           documentation:
             summary: "Create customer"
             description: "Create a new customer"
+            requestHeaders:
+              - name: "Authorization"
+                description: "Auth credentials"
+            requestBody:
+              description: "Request body description"
+            requestModels:
+              "application/json": "CreateCustomerModel"
             methodResponses:
               - statusCode: "200"
                 responseBody:
@@ -114,9 +142,16 @@ functions:
           path: customers/{customerId}
           method: delete
           cors: true
+          authorizer: service-authorizer
           documentation:
             summary: "Delete customer"
             description: "Delete a specified customer by customerId"
+            requestHeaders:
+              - name: "Authorization"
+                description: "Auth credentials"
+            pathParams:
+              - name: "customerId"
+                description: "ID of the customer you want to delete"
             methodResponses:
               - statusCode: "200"
                 responseBody:
@@ -134,9 +169,16 @@ functions:
           path: customers/{customerId}
           method: get
           cors: true
+          authorizer: service-authorizer
           documentation:
             summary: "Get customer"
             description: "Get a specified customer by customerId"
+            requestHeaders:
+              - name: "Authorization"
+                description: "Auth credentials"
+            pathParams:
+              - name: "customerId"
+                description: "ID of the customer you want to get"
             methodResponses:
               - statusCode: "200"
                 responseBody:
@@ -154,9 +196,16 @@ functions:
           path: customers/search/{queryTerm}
           method: get
           cors: true
+          authorizer: service-authorizer
           documentation:
             summary: "Search customer"
             description: "Search specified customers by text query"
+            requestHeaders:
+              - name: "Authorization"
+                description: "Auth credentials"
+            pathParams:
+              - name: "queryTerm"
+                description: "The text you want to search on customer's attributes"
             methodResponses:
               - statusCode: "200"
                 responseBody:
@@ -174,6 +223,21 @@ resources:
       DeletionPolicy: Retain
       Properties:
         TableName: ${self:provider.environment.CUSTOMERS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: customerId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: customerId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    
+    customersProfileTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        TableName: ${self:provider.environment.CUSTOMERS_PROFILES_TABLE}
         AttributeDefinitions:
           - AttributeName: customerId
             AttributeType: S
