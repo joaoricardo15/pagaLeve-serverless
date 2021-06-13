@@ -15,10 +15,10 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Install Offline Plugin and Deploy
+    - name: Install NPM dependencies and Deploy
       uses: serverless/github-action@v1.53.0
       with:
-        args: -c "serverless plugin install --name serverless-offline && serverless deploy --stage=prod --verbose"
+        args: -c "npm install && serverless deploy --stage=prod --verbose"
         entrypoint: /bin/bash
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
