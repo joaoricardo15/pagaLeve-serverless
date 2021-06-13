@@ -41,6 +41,11 @@ provider:
         - dynamodb:DeleteItem
       Resource:
         - { "Fn::GetAtt": ["customersTable", "Arn" ] }
+        - { "Fn::GetAtt": ["customersProfileTable", "Arn" ] }
+    - Effect: Allow
+      Action:
+        - "logs:*"
+      Resource: "*"
 
 custom:
   documentation:
@@ -80,9 +85,7 @@ custom:
         schema: ${file(src/models/customer.json)}
 
 functions:
-  service-authorizer:
-    handler: src/services/authorizer.handler
-
+  # Customer resources
   customers-list:
     handler: src/endpoints/customers/list/index.handler
     events:
@@ -215,6 +218,28 @@ functions:
               - statusCode: "400"
                 responseModels:
                   "application/json": "ErrorResponse"
+  
+  # Internal services
+  service-authorizer:
+    handler: src/services/authorizer.handler
+
+  service-logs-list:
+    handler: src/endpoints/logs/list/index.handler
+    events:
+      - http:
+          path: logs
+          method: get
+          cors: true
+          authorizer: service-authorizer
+  
+  service-logs-get:
+    handler: src/endpoints/logs/get/index.handler
+    events:
+      - http:
+          path: logs/{endpointName}
+          method: get
+          cors: true
+          authorizer: service-authorizer
 
 resources:
   Resources:

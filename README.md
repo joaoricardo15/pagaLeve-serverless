@@ -14,6 +14,8 @@ Logs can be found at [AWS Cloudwatch](https://aws.amazon.com/pt/cloudwatch/)
 
 Error monitopring and notification was implemented with [Sendgrid](https://sendgrid.com/)
 
+For any error thats occurs in any endpoint, the responsible Engineer will receive an e-mail with the error overview
+
 ## Available Scripts
 
 In the project directory, you can run:
