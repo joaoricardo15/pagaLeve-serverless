@@ -12,7 +12,7 @@ Automated deployment is implemented with [GitHub Actions](https://github.com/fea
 
 ## Logs
 
-Logs are saved at [AWS Cloudwatch](https://aws.amazon.com/pt/cloudwatch/), and it's overview can be found on a special area of the [Customers API Front-End](https://pagaleve.click/endpoints)
+Logs are saved at [AWS Cloudwatch](https://aws.amazon.com/pt/cloudwatch/), and it's overview can be found on a special area of the [Customers API Front-End](https://www.pagaleve.click/endpoints)
 
 ## Error monitoring
 
