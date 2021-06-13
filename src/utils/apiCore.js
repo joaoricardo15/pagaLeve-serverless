@@ -8,7 +8,7 @@ module.exports = class ApiCore {
     
     constructor(inputData, functionContext) {
         this.logObject = { inputData, timestamp: new Date() }
-        this.functionName = functionContext.functionName.split(`${API_PREFIX}-`)[1]
+        this.functionName = functionContext.functionName
         this.headers = {
             'Content-type': 'application/json',
             'Access-Control-Allow-Origin': '*'
